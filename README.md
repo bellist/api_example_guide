@@ -138,3 +138,62 @@ def update_ticket(ticket_id):
     )
     return response.status_code, response.reason
 ```
+## Completing a Ticket Task
+
+The following code will complete a task for a Policy Planner ticket.
+
+Python
+```
+def retrieve_ticket(ticket_id):
+    """
+    :param ticket_id: ID of ticket as string
+    :return: JSON of response
+    """
+    url = '<base_url>/policyplanner/api/domain/<domain_id>/workflow/<workflow_id>/packet/' + ticket_id
+    response = requests.get(
+        url=url,
+        auth=(<username>, <password>)
+    )
+    return response.json()
+	
+def get_workflow_packet_task_id(ticket_json):
+    """
+    Retrieves workflowPacketTaskId value from current stage of provided ticket
+    :param ticket_json: JSON of ticket, retrieved using pull_ticket function
+    :return: workflowPacketTaskId of current stage for given ticket
+    """
+    curr_stage = ticket_json['status']
+    workflow_packet_tasks = ticket_json['workflowPacketTasks']
+    for t in workflow_packet_tasks:
+        if t['workflowTask']['name'] == curr_stage:
+            return str(t['id'])
+			
+def get_workflow_task_id(ticket_json):
+    """
+    Retrieves workflowTaskId value from current stage of provided ticket
+    :param ticket_json: JSON of ticket, retrieved using pull_ticket function
+    :return: workflowTaskId of current stage for given ticket
+    """
+    curr_stage = ticket_json['status']
+    workflow_packet_tasks = ticket_json['workflowPacketTasks']
+    for t in workflow_packet_tasks:
+        if t['workflowTask']['name'] == curr_stage:
+            return str(t['workflowTask']['id'])
+	
+def complete_task(ticket_id, button_action):
+    """
+    :param ticket_id: Ticket ID as string
+    :param button_action: button value as string, options are: submit, complete, autoDesign, verify, approved, rejected
+    :return: Response code and reason
+    """
+    ticket_json = retrieve_ticket(ticket_id)
+    workflow_packet_task_id = get_workflow_packet_task_id(ticket_json)
+    workflow_task_id = get_workflow_task_id(ticket_json)
+    url = '<base_url>/policyplanner/api/domain/<domain_id>/workflow/<workflow_id>/task/' + workflow_task_id + '/packet/' + ticket_id + '/packet-task/' + workflow_packet_task_id + '/complete?button=' + button_action
+    response = requests.put(
+        url=url,
+        auth=(<username>, <password>),
+        json={}
+    )
+    return response.status_code, response.reason
+```
