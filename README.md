@@ -197,3 +197,69 @@ def complete_task(ticket_id, button_action):
     )
     return response.status_code, response.reason
 ```
+## Adding a Requirement
+
+The following code will add a requirement to a Policy Planner ticket.
+
+```
+def retrieve_ticket(ticket_id):
+    """
+    :param ticket_id: ID of ticket as string
+    :return: JSON of response
+    """
+    url = '<base_url>/policyplanner/api/domain/<domain_id>/workflow/<workflow_id>/packet/' + ticket_id
+    response = requests.get(
+        url=url,
+        auth=(<username>, <password>)
+    )
+    return response.json()
+
+def get_workflow_task_id(ticket_json):
+    """
+    Retrieves workflowTaskId value from current stage of provided ticket
+    :param ticket_json: JSON of ticket, retrieved using pull_ticket function
+    :return: workflowTaskId of current stage for given ticket
+    """
+    curr_stage = ticket_json['status']
+    workflow_packet_tasks = ticket_json['workflowPacketTasks']
+    for t in workflow_packet_tasks:
+        if t['workflowTask']['name'] == curr_stage:
+            return str(t['workflowTask']['id'])
+
+def add_requirement(ticket_id):
+    """
+    :param ticket_id: ID of ticket as string
+    :return: response code and reason
+    """
+    ticket_json = retreive_ticket(ticket_id)
+    workflow_task_id = get_workflow_task_id(ticket_json)
+    url = '<base_url>/policyplanner/api/policyplan/domain/<domain_id>/workflow/<workflow_id>/task/' + workflow_task_id + '/packet/' + ticket_id + '/requirements'
+    payload = {
+        'requirements': [
+            {
+                'requirementType': 'RULE',
+                'changes': [],
+                'childKey': 'add_access',
+                'variables': {
+                    'expiration': '2022-09-01T00:00:00+0000'
+                },
+                'destinations': [
+                    '10.1.1.0/24'
+                ],
+                'services': [
+                    'tcp/22'
+                ],
+                'sources': [
+                    '10.0.0.0/24'
+                ],
+                'action': 'ACCEPT'
+            }
+        ]
+    }
+    response = requests.post(
+        url=url,
+        auth=(<username>, <password>),
+        json=payload
+    )
+    return response.status_code, response.reason
+```
