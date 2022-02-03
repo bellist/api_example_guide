@@ -133,7 +133,7 @@ def update_ticket(ticket_id):
     url = '<base_url/policyplanner/api/domain/<domain_id>/workflow/<workflow_id>/packet/' + ticket_id
     response = requests.put(
         url=url,
-        auth=(USER, PASS),
+        auth=(<user_name>, <password>),
         json=payload
     )
     return response.status_code, response.reason
