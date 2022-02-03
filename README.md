@@ -1,4 +1,15 @@
 # Policy Planner API Example Guide
+## Discovering Variables
+When navigating to a Policy Planner ticket you can discover the following variables via the URL:
+- base_url
+- domain_id
+- workflow_id
+- ticket_id
+```
+https://<base_url>.firemon.com/policyplanner/#/domain/<domain_id>/workflow/<workflow_id>/ticket/<ticket_id>/view/analysis
+```
+## Authentication
+Authentication is completed via Basic Authentication with a username and password. Ensure the used account credentials are permissioned to complete the attempted action.
 
 ## Creating a ticket
 
