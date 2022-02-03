@@ -263,10 +263,11 @@ def add_requirement(ticket_id):
     )
     return response.status_code, response.reason
 ```
-## Retreiving Requirements
+## Retrieving Requirements
 
-
-The following code will retreive requirements from a Policy Planner ticket.
+The following code will retrieve requirements from a Policy Planner ticket.
+	
+Python
 ```
 def retrieve_ticket(ticket_id):
     """
@@ -305,4 +306,66 @@ def get_reqs(ticket_id):
         auth=(<username>, <password>)
     )
     return response.json()
+```
+## Approving Requirements
+
+The following code will approve all requirements on a Policy Planner ticket.
+
+Python
+```
+def retrieve_ticket(ticket_id):
+    """
+    :param ticket_id: ID of ticket as string
+    :return: JSON of response
+    """
+    url = '<base_url>/policyplanner/api/domain/<domain_id>/workflow/<workflow_id>/packet/' + ticket_id
+    response = requests.get(
+        url=url,
+        auth=(<username>, <password>)
+    )
+    return response.json()
+
+def get_workflow_task_id(ticket_json):
+    """
+    Retrieves workflowTaskId value from current stage of provided ticket
+    :param ticket_json: JSON of ticket, retrieved using pull_ticket function
+    :return: workflowTaskId of current stage for given ticket
+    """
+    curr_stage = ticket_json['status']
+    workflow_packet_tasks = ticket_json['workflowPacketTasks']
+    for t in workflow_packet_tasks:
+        if t['workflowTask']['name'] == curr_stage:
+            return str(t['workflowTask']['id'])
+	
+def get_reqs(ticket_id):
+    """
+    :param ticket_id: Ticket ID as string
+    :return: JSON of requirements
+    """
+    ticket_json = retrieve_ticket(ticket_id)
+    workflow_task_id = get_workflow_task_id(ticket_json)
+    url = '<base_url>/policyplanner/api/policyplan/domain/<domain_id>/workflow/<workflow_id>/task/' + workflow_task_id + '/packet/' + ticket_id + '/requirements'
+    response = requests.get(
+        url=url,
+        auth=(<username>, <password>)
+    )
+    return response.json()
+	
+def approve_req(ticket_id):
+    """
+    :param ticket_id: Ticket ID as string
+    :return: dictionary of response codes
+    """
+    req_json = get_reqs(ticket_id)
+    reqs = {}
+    for r in req_json['results']:
+        url = '<base_url>/policyplanner/api/prechangeassessments/domain/<domain_id>/workflow/<workflow_id>/packet/' + ticket_id + '/requirement/' + str(
+            r['id']) + '/reviewDecision/APPROVED'
+        response = requests.put(
+            url=url,
+            json={},
+            auth=(USER, PASS)
+        )
+        reqs[r['id']] = response.status_code
+    return reqs
 ```
