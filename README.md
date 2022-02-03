@@ -263,3 +263,46 @@ def add_requirement(ticket_id):
     )
     return response.status_code, response.reason
 ```
+## Retreiving Requirements
+
+
+The following code will retreive requirements from a Policy Planner ticket.
+```
+def retrieve_ticket(ticket_id):
+    """
+    :param ticket_id: ID of ticket as string
+    :return: JSON of response
+    """
+    url = '<base_url>/policyplanner/api/domain/<domain_id>/workflow/<workflow_id>/packet/' + ticket_id
+    response = requests.get(
+        url=url,
+        auth=(<username>, <password>)
+    )
+    return response.json()
+
+def get_workflow_task_id(ticket_json):
+    """
+    Retrieves workflowTaskId value from current stage of provided ticket
+    :param ticket_json: JSON of ticket, retrieved using pull_ticket function
+    :return: workflowTaskId of current stage for given ticket
+    """
+    curr_stage = ticket_json['status']
+    workflow_packet_tasks = ticket_json['workflowPacketTasks']
+    for t in workflow_packet_tasks:
+        if t['workflowTask']['name'] == curr_stage:
+            return str(t['workflowTask']['id'])
+	
+def get_reqs(ticket_id):
+    """
+    :param ticket_id: Ticket ID as string
+    :return: JSON of requirements
+    """
+    ticket_json = retrieve_ticket(ticket_id)
+    workflow_task_id = get_workflow_task_id(ticket_json)
+    url = '<base_url>/policyplanner/api/policyplan/domain/<domain_id>/workflow/<workflow_id>/task/' + workflow_task_id + '/packet/' + ticket_id + '/requirements'
+    response = requests.get(
+        url=url,
+        auth=(<username>, <password>)
+    )
+    return response.json()
+```
