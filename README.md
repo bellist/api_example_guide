@@ -130,7 +130,7 @@ def update_ticket(ticket_id):
     payload = {
         'variables': {
             'summary': 'string',
-            'dueDate': '2022-01-01T05:00:00+0000', # format: %Y-%m-%dT%H:%M:%S%Z
+            'dueDate': '2022-01-01T05:00:00+0000', # format: %Y-%m-%dT%H:%M:%S%z
             'priority': 'LOW',  # options are LOW, MEDIUM, HIGH
             'applicationName': 'string',
             'applicationOwner': 'string',
