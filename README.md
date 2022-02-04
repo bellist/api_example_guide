@@ -17,6 +17,8 @@ The following code will create a Policy Planner ticket and return the ID of the 
 
 Python
 ```
+import requests
+
 def create_ticket():
     """
     :return: ID of ticket in integer form
@@ -43,6 +45,8 @@ The following code will retrieve the JSON response for a Policy Planner ticket.
 
 Python
 ```
+import requests
+
 def retrieve_ticket(ticket_id):
     """
     :param ticket_id: ID of ticket as string
@@ -61,6 +65,8 @@ The following code will assign a Policy Planner ticket to a user.
 
 Python
 ```
+import requests
+
 def retrieve_ticket(ticket_id):
     """
     :param ticket_id: ID of ticket as string
@@ -122,6 +128,8 @@ The following code will update a Policy Planner ticket.
 
 Python
 ```
+import requests
+
 def update_ticket(ticket_id):
     """
     :param ticket_id: Ticket ID as string
@@ -155,6 +163,8 @@ The following code will complete a task for a Policy Planner ticket.
 
 Python
 ```
+import requests
+
 def retrieve_ticket(ticket_id):
     """
     :param ticket_id: ID of ticket as string
@@ -212,7 +222,10 @@ def complete_task(ticket_id, button_action):
 
 The following code will add a requirement to a Policy Planner ticket.
 
+Python
 ```
+import requests
+
 def retrieve_ticket(ticket_id):
     """
     :param ticket_id: ID of ticket as string
@@ -280,6 +293,8 @@ The following code will retrieve requirements from a Policy Planner ticket.
 	
 Python
 ```
+import requests
+
 def retrieve_ticket(ticket_id):
     """
     :param ticket_id: ID of ticket as string
@@ -324,6 +339,8 @@ The following code will approve all requirements on a Policy Planner ticket.
 
 Python
 ```
+import requests
+
 def retrieve_ticket(ticket_id):
     """
     :param ticket_id: ID of ticket as string
