@@ -38,6 +38,9 @@ def create_ticket():
     )
     ticket_id = response.json()['id']
     return ticket_id
+
+if __name__ == "__main__":
+    create_ticket()
 ```
 ## Retrieving a Ticket
 
@@ -58,6 +61,9 @@ def retrieve_ticket(ticket_id):
         auth=(<username>, <password>)
     )
     return response.json()
+    
+if __name__ == "__main__":
+    retrieve_ticket('X') # Replace X with the Ticket ID
 ```	
 ## Assigning Ticket
 
@@ -121,6 +127,9 @@ def assign_ticket(ticket_id, user_id):
         headers={'Content-Type': 'text/plain; charset=utf-8'}
     )
     return response.status_code, response.reason
+	
+if __name__ == "__main__":
+    assign_ticket('X', 'Y') # Replace X with the Ticket ID, Replace Y with the ID of the User
 ```
 ## Updating a Ticket
 
@@ -156,6 +165,9 @@ def update_ticket(ticket_id):
         json=payload
     )
     return response.status_code, response.reason
+	
+if __name__ == "__main__":
+    update_ticket('X') # Replace X with the Ticket ID
 ```
 ## Completing a Ticket Task
 
@@ -217,6 +229,9 @@ def complete_task(ticket_id, button_action):
         json={}
     )
     return response.status_code, response.reason
+
+if __name__ == "__main__":
+    complete_task('X', 'Y') # Replace X with the Ticket ID, Replace Y with the button action
 ```
 ## Adding a Requirement
 
@@ -286,6 +301,9 @@ def add_requirement(ticket_id):
         json=payload
     )
     return response.status_code, response.reason
+	
+if __name__ == "__main__":
+    add_requirement('X') # Replace X with the Ticket ID
 ```
 ## Retrieving Requirements
 
@@ -332,6 +350,9 @@ def get_reqs(ticket_id):
         auth=(<username>, <password>)
     )
     return response.json()
+
+if __name__ == "__main__":
+    get_reqs('X') # Replace X with the Ticket ID
 ```
 ## Approving Requirements
 
@@ -392,8 +413,10 @@ def approve_req(ticket_id):
         response = requests.put(
             url=url,
             json={},
-            auth=(USER, PASS)
+            auth=(<username>, <password>)
         )
         reqs[r['id']] = response.status_code
     return reqs
+if __name__ == "__main__":
+    approve_req('X') # Replace X with the Ticket ID
 ```
