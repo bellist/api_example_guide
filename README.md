@@ -23,7 +23,7 @@ def create_ticket():
     """
     payload = {
         'variables': {
-            'summary': <summary>,
+            'summary': 'string',
             'requesterEmail': '<requester email>',
             'requesterName': '<requester name>'
         }
