@@ -283,8 +283,8 @@ def add_requirement(ticket_id):
                     'expiration': '2022-01-01T05:00:00+0000', # format: %Y-%m-%dT%H:%M:%S%z
                 },
                 'destinations': [
-                    '<address_1>',
-		    '<address_2>'
+                    '<destination_1>',
+		    '<destination_2>'
                 ],
                 'services': [
                     '<service_1>', # Example: tcp/22
