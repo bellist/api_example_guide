@@ -233,9 +233,9 @@ def complete_task(ticket_id, button_action):
 if __name__ == "__main__":
     complete_task('X', 'Y') # Replace X with the Ticket ID, Replace Y with the button action
 ```
-## Adding a Requirement
+## Adding an Add Connectivity Requirement
 
-The following code will add a requirement to a Policy Planner ticket.
+The following code will add an Add Connectivity requirement to a Policy Planner ticket.
 
 Python
 ```
@@ -280,18 +280,21 @@ def add_requirement(ticket_id):
                 'changes': [],
                 'childKey': 'add_access',
                 'variables': {
-                    'expiration': '2022-09-01T00:00:00+0000'
+                    'expiration': '2022-01-01T05:00:00+0000', # format: %Y-%m-%dT%H:%M:%S%z
                 },
                 'destinations': [
-                    '10.1.1.0/24'
+                    '<address_1>',
+		    '<address_2>'
                 ],
                 'services': [
-                    'tcp/22'
+                    '<service_1>', # Example: tcp/22
+                    '<service_2>'
                 ],
                 'sources': [
-                    '10.0.0.0/24'
+                    '<source_1>',
+		    '<source_2>'
                 ],
-                'action': 'ACCEPT'
+                'action': 'ACCEPT' # Options are: ACCEPT or DROP
             }
         ]
     }
