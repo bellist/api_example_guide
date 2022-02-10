@@ -423,3 +423,61 @@ def approve_req(ticket_id):
 if __name__ == "__main__":
     approve_req('X') # Replace X with the Ticket ID
 ```
+## Running and Retrieving Pre-Change Analysis
+
+The following code will run and retrieve the Pre-Change Analysis for a Policy Planner ticket.
+
+Python
+```
+import requests
+
+def parse_controls(controls):
+    """
+    :param controls: Comma delimited list of controls as string
+    :return: URL query as string
+    """
+    output = ''
+    controls_list = controls.split(',')
+    for c in range(0, len(controls_list)):
+        if len(controls_list) > 1 and c > 0:
+            output = output + '&'
+        output = output + 'controlTypes=' + controls_list[c]
+    return output
+
+def run_pca(ticket_id, control_types, enable_risk_sa):
+    """
+    :param ticket_id: Ticket ID as string
+    :param control_types: Control types as string array. Options:
+    ALLOWED_SERVICES, CHANGE_WINDOW_VIOLATION, DEVICE_ACCESS_ANALYSIS, DEVICE_PROPERTY, DEVICE_STATUS,
+    NETWORK_ACCESS_ANALYSIS, REGEX, REGEX_MULITPATTERN, RULE_SEARCH, RULE_USAGE, SERVICE_RISK_ANALYSIS,
+    ZONE_MATRIX, ZONE_BASED_RULE_SEARCH
+    :param enable_risk_sa: true or false as string
+    :return: response code and reason
+    """
+    controls_formatted = parse_controls(control_types)
+    url = <base_url> + '/policyplanner/api/prechangeassessments/domain/<domain_id>/workflow/<workflow_id>/packet/' + ticket_id + '/run?' + controls_formatted + '&enableRiskScoreAnalysis=' + enable_risk_sa
+    response = requests.post(
+        url=url,
+        auth=(<username>, <password>)
+    )
+    return response.status_code, response.reason
+
+def retrieve_pca(ticket_id):
+    """
+    :param ticket_id: Ticket ID as string
+    :return: JSON response of PCA
+    """
+    url = <base_url> + '/policyplanner/api/prechangeassessments/domain/<domain_id>/workflow/<workflow_id>/packet/' + ticket_id + '/results'
+    response = requests.get(
+        url=url,
+        auth=(<username>, <password>)
+    )
+    return response.json()
+	
+if __name__ == "__main__":
+    pca = run_pca('X', 'C1,C2', 'boolean') # replace X with Ticket ID, replace C1 and C2 with Control Types
+    if pca[0] == 204:
+        retrieve_pca('X') # replace X with Ticket ID
+    else:
+        print("Error: ", pca[0], "Response: ", pca[1])
+```
