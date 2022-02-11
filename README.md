@@ -481,3 +481,56 @@ if __name__ == "__main__":
     else:
         print("Error: ", pca[0], "Response: ", pca[1])
 ```
+## Attaching file to Ticket
+
+The following code attach a file to a Policy Planner ticket.
+
+Python
+```
+import requests
+
+
+def stage_attachment(file_name):
+    url = '<base_url>/policyplanner/api/domain/<domain_id>/workflow/<workflow_id>/packet/attachment'
+    with open(file_name, 'rb') as f:
+        response = requests.post(
+            url=url,
+            files={file_name: f},
+            auth=(<username>, <password>)
+        )
+    return response.status_code, response.reason, response.json()
+
+
+def post_attachment(ticket_id, attachment_json):
+    url = '<base_url>/policyplanner/api/domain/<domain_id>/workflow/<workflow_id>/packet/' + ticket_id + '/attachment'
+    response = requests.put(
+        url=url,
+        json=attachment_json,
+        auth=(<username>, <password>)
+    )
+    return response.json()['attachments'][0]['id']
+
+
+def update_attachment_desc(ticket_id, description, attachment_id):
+    url = '<base_url>/policyplanner/api/domain/<domain_id>/workflow/<workflow_id>/packet/' + ticket_id + '/attachment/' + attachment_id
+    payload = {
+        'description': description
+    }
+    response = requests.put(
+        url=url,
+        json=payload,
+        auth=(<username>, <password>)
+    )
+    return response.status_code, response.reason
+
+
+def add_attachment(ticket_id, filename, description):
+    attachment_staged = stage_attachment(filename)
+    attachment_id = post_attachment(ticket_id, attachment_staged[2], description)
+    update = update_attachment_desc(ticket_id, description, str(attachment_id))
+    return update
+
+
+if __name__ == "__main__":
+    add_attachment('<Ticket_ID>', '<filename>', '<description>')
+```
