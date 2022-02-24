@@ -483,7 +483,7 @@ if __name__ == "__main__":
 ```
 ## Attaching file to Ticket
 
-The following code attach a file to a Policy Planner ticket.
+The following code will attach a file to a Policy Planner ticket.
 
 Python
 ```
@@ -533,4 +533,57 @@ def add_attachment(ticket_id, filename, description):
 
 if __name__ == "__main__":
     add_attachment('<Ticket_ID>', '<filename>', '<description>')
+```
+## Generating a Change Plan (Rule Recommendation)
+
+The following code generate a change plan given a device group and a set of requirements.
+
+Python
+```
+import requests
+
+
+def get_rule_rec(device_group_id, address_match_strategy, modify_behavior, strategy):
+    """
+    :param device_group_id: Device Group ID for the Device Group to Run Rule Rec against. Device Group 1 Should Be 'All Devices'
+    :param address_match_strategy: Allows the option to specify the matching strategy used. Options are: INTERSECTS (default) or SUPERSET_OF
+    :param modify_behavior: Specifies if Rule Rec should look to modify existing rules (if possible) or create new rules. Options are: MODIFY (default) or CREATE
+    :param strategy: Options are: NONE (default), REFERENCES, HITCOUNT, NAME_PATTERN
+    :return: JSON response of Rule Recommendation 
+    """
+    url = '<base_url>/orchestration/api/domain/<domain_id>/change/rulerec?deviceGroupId=' + device_group_id + '&addressMatchingStrategy=' + address_match_strategy + '&modifyBehavior=' + modify_behavior + '&strategy=' + strategy
+    payload = {
+        "childKey": "string",
+        "apps": [
+            "string",
+            "string"
+        ],
+        "sources": [
+            "string",
+            "string"
+        ],
+        "destinations": [
+            "string",
+            "string"
+        ],
+        "services": [
+            "string",
+            "string"
+        ],
+        "users": [
+            "string",
+            "string"
+        ],
+        "action": "ACCEPT"
+    }
+    response = requests.post(
+        url=url,
+        json=payload,
+        auth=(USER, PASS)
+    )
+    return response.json()
+
+
+if __name__ == "__main__":
+    get_rule_rec('<device_group_id>', '<address_match_strategy>', '<modify_behavior>', '<strategy>')
 ```
