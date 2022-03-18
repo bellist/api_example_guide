@@ -19,9 +19,9 @@ Python
 ```
 import requests
 
-def create_ticket():
+def create_ticket() -> int:
     """
-    :return: ID of ticket in integer form
+    :return: ID of ticket
     """
     payload = {
         'variables': {
@@ -50,9 +50,9 @@ Python
 ```
 import requests
 
-def retrieve_ticket(ticket_id):
+def retrieve_ticket(ticket_id: str) -> dict:
     """
-    :param ticket_id: ID of ticket as string
+    :param ticket_id: ID of ticket
     :return: JSON of response
     """
     url = '<base_url>/policyplanner/api/domain/<domain_id>/workflow/<workflow_id>/packet/' + ticket_id
@@ -73,9 +73,9 @@ Python
 ```
 import requests
 
-def retrieve_ticket(ticket_id):
+def retrieve_ticket(ticket_id: str) -> dict:
     """
-    :param ticket_id: ID of ticket as string
+    :param ticket_id: ID of ticket
     :return: JSON of response
     """
     url = '<base_url>/policyplanner/api/domain/<domain_id>/workflow/<workflow_id>/packet/' + ticket_id
@@ -85,7 +85,7 @@ def retrieve_ticket(ticket_id):
     )
     return response.json()
 	
-def get_workflow_packet_task_id(ticket_json):
+def get_workflow_packet_task_id(ticket_json: dict) -> str:
     """
     Retrieves workflowPacketTaskId value from current stage of provided ticket
     :param ticket_json: JSON of ticket, retrieved using pull_ticket function
@@ -97,7 +97,7 @@ def get_workflow_packet_task_id(ticket_json):
         if t['workflowTask']['name'] == curr_stage:
             return str(t['id'])
 			
-def get_workflow_task_id(ticket_json):
+def get_workflow_task_id(ticket_json: dict) -> str:
     """
     Retrieves workflowTaskId value from current stage of provided ticket
     :param ticket_json: JSON of ticket, retrieved using pull_ticket function
@@ -109,11 +109,11 @@ def get_workflow_task_id(ticket_json):
         if t['workflowTask']['name'] == curr_stage:
             return str(t['workflowTask']['id'])
 
-def assign_ticket(ticket_id, user_id):
+def assign_ticket(ticket_id: str, user_id: str) -> list:
     """
-    :param ticket_id: ID of ticket as string
-    :param user_id: ID of user_id as string
-    :return:
+    :param ticket_id: ID of ticket
+    :param user_id: ID of user_id
+    :return: Response Code and Status
     """
     ticket_json = retrieve_ticket(ticket_id)
     payload = user_id
@@ -139,9 +139,9 @@ Python
 ```
 import requests
 
-def update_ticket(ticket_id):
+def update_ticket(ticket_id: str) -> list:
     """
-    :param ticket_id: Ticket ID as string
+    :param ticket_id: Ticket ID
     :return: response code and reason
     """
     payload = {
@@ -177,9 +177,9 @@ Python
 ```
 import requests
 
-def retrieve_ticket(ticket_id):
+def retrieve_ticket(ticket_id: str) -> dict:
     """
-    :param ticket_id: ID of ticket as string
+    :param ticket_id: ID of ticket
     :return: JSON of response
     """
     url = '<base_url>/policyplanner/api/domain/<domain_id>/workflow/<workflow_id>/packet/' + ticket_id
@@ -189,7 +189,7 @@ def retrieve_ticket(ticket_id):
     )
     return response.json()
 	
-def get_workflow_packet_task_id(ticket_json):
+def get_workflow_packet_task_id(ticket_json: dict) -> str:
     """
     Retrieves workflowPacketTaskId value from current stage of provided ticket
     :param ticket_json: JSON of ticket, retrieved using pull_ticket function
@@ -201,7 +201,7 @@ def get_workflow_packet_task_id(ticket_json):
         if t['workflowTask']['name'] == curr_stage:
             return str(t['id'])
 			
-def get_workflow_task_id(ticket_json):
+def get_workflow_task_id(ticket_json: dict) -> str:
     """
     Retrieves workflowTaskId value from current stage of provided ticket
     :param ticket_json: JSON of ticket, retrieved using pull_ticket function
@@ -213,10 +213,10 @@ def get_workflow_task_id(ticket_json):
         if t['workflowTask']['name'] == curr_stage:
             return str(t['workflowTask']['id'])
 	
-def complete_task(ticket_id, button_action):
+def complete_task(ticket_id: str, button_action: str) -> list:
     """
-    :param ticket_id: Ticket ID as string
-    :param button_action: button value as string, options are: submit, complete, autoDesign, verify, approved, rejected
+    :param ticket_id: Ticket ID
+    :param button_action: button value, options are: submit, complete, autoDesign, verify, approved, rejected
     :return: Response code and reason
     """
     ticket_json = retrieve_ticket(ticket_id)
@@ -241,9 +241,9 @@ Python
 ```
 import requests
 
-def retrieve_ticket(ticket_id):
+def retrieve_ticket(ticket_id: str) -> dict:
     """
-    :param ticket_id: ID of ticket as string
+    :param ticket_id: ID of ticket
     :return: JSON of response
     """
     url = '<base_url>/policyplanner/api/domain/<domain_id>/workflow/<workflow_id>/packet/' + ticket_id
@@ -253,7 +253,7 @@ def retrieve_ticket(ticket_id):
     )
     return response.json()
 
-def get_workflow_task_id(ticket_json):
+def get_workflow_task_id(ticket_json: dict) -> str:
     """
     Retrieves workflowTaskId value from current stage of provided ticket
     :param ticket_json: JSON of ticket, retrieved using pull_ticket function
@@ -265,9 +265,9 @@ def get_workflow_task_id(ticket_json):
         if t['workflowTask']['name'] == curr_stage:
             return str(t['workflowTask']['id'])
 
-def add_requirement(ticket_id):
+def add_requirement(ticket_id: str) -> list:
     """
-    :param ticket_id: ID of ticket as string
+    :param ticket_id: ID of ticket
     :return: response code and reason
     """
     ticket_json = retreive_ticket(ticket_id)
@@ -316,9 +316,9 @@ Python
 ```
 import requests
 
-def retrieve_ticket(ticket_id):
+def retrieve_ticket(ticket_id: str) -> dict:
     """
-    :param ticket_id: ID of ticket as string
+    :param ticket_id: ID of ticket
     :return: JSON of response
     """
     url = '<base_url>/policyplanner/api/domain/<domain_id>/workflow/<workflow_id>/packet/' + ticket_id
@@ -328,7 +328,7 @@ def retrieve_ticket(ticket_id):
     )
     return response.json()
 
-def get_workflow_task_id(ticket_json):
+def get_workflow_task_id(ticket_json: dict) -> str:
     """
     Retrieves workflowTaskId value from current stage of provided ticket
     :param ticket_json: JSON of ticket, retrieved using pull_ticket function
@@ -340,9 +340,9 @@ def get_workflow_task_id(ticket_json):
         if t['workflowTask']['name'] == curr_stage:
             return str(t['workflowTask']['id'])
 	
-def get_reqs(ticket_id):
+def get_reqs(ticket_id: str) -> dict:
     """
-    :param ticket_id: Ticket ID as string
+    :param ticket_id: Ticket ID
     :return: JSON of requirements
     """
     ticket_json = retrieve_ticket(ticket_id)
@@ -365,9 +365,9 @@ Python
 ```
 import requests
 
-def retrieve_ticket(ticket_id):
+def retrieve_ticket(ticket_id: str) -> dict:
     """
-    :param ticket_id: ID of ticket as string
+    :param ticket_id: ID of ticket
     :return: JSON of response
     """
     url = '<base_url>/policyplanner/api/domain/<domain_id>/workflow/<workflow_id>/packet/' + ticket_id
@@ -377,7 +377,7 @@ def retrieve_ticket(ticket_id):
     )
     return response.json()
 
-def get_workflow_task_id(ticket_json):
+def get_workflow_task_id(ticket_json: dict) -> str:
     """
     Retrieves workflowTaskId value from current stage of provided ticket
     :param ticket_json: JSON of ticket, retrieved using pull_ticket function
@@ -389,9 +389,9 @@ def get_workflow_task_id(ticket_json):
         if t['workflowTask']['name'] == curr_stage:
             return str(t['workflowTask']['id'])
 	
-def get_reqs(ticket_id):
+def get_reqs(ticket_id: str) -> dict:
     """
-    :param ticket_id: Ticket ID as string
+    :param ticket_id: Ticket ID
     :return: JSON of requirements
     """
     ticket_json = retrieve_ticket(ticket_id)
@@ -403,9 +403,9 @@ def get_reqs(ticket_id):
     )
     return response.json()
 	
-def approve_req(ticket_id):
+def approve_req(ticket_id: str) -> dict:
     """
-    :param ticket_id: Ticket ID as string
+    :param ticket_id: Ticket ID
     :return: dictionary of response codes
     """
     req_json = get_reqs(ticket_id)
@@ -431,10 +431,10 @@ Python
 ```
 import requests
 
-def parse_controls(controls):
+def parse_controls(controls: str) -> str:
     """
-    :param controls: Comma delimited list of controls as string
-    :return: URL query as string
+    :param controls: Comma delimited list of controls
+    :return: URL query
     """
     output = ''
     controls_list = controls.split(',')
@@ -444,14 +444,14 @@ def parse_controls(controls):
         output = output + 'controlTypes=' + controls_list[c]
     return output
 
-def run_pca(ticket_id, control_types, enable_risk_sa):
+def run_pca(ticket_id: str, control_types: str, enable_risk_sa: str) -> list:
     """
-    :param ticket_id: Ticket ID as string
-    :param control_types: Control types as string array. Options:
+    :param ticket_id: Ticket ID
+    :param control_types: Control types. Options:
     ALLOWED_SERVICES, CHANGE_WINDOW_VIOLATION, DEVICE_ACCESS_ANALYSIS, DEVICE_PROPERTY, DEVICE_STATUS,
     NETWORK_ACCESS_ANALYSIS, REGEX, REGEX_MULITPATTERN, RULE_SEARCH, RULE_USAGE, SERVICE_RISK_ANALYSIS,
     ZONE_MATRIX, ZONE_BASED_RULE_SEARCH
-    :param enable_risk_sa: true or false as string
+    :param enable_risk_sa: true or false
     :return: response code and reason
     """
     controls_formatted = parse_controls(control_types)
@@ -462,9 +462,9 @@ def run_pca(ticket_id, control_types, enable_risk_sa):
     )
     return response.status_code, response.reason
 
-def retrieve_pca(ticket_id):
+def retrieve_pca(ticket_id: str) -> dict:
     """
-    :param ticket_id: Ticket ID as string
+    :param ticket_id: Ticket ID
     :return: JSON response of PCA
     """
     url = <base_url> + '/policyplanner/api/prechangeassessments/domain/<domain_id>/workflow/<workflow_id>/packet/' + ticket_id + '/results'
@@ -490,7 +490,7 @@ Python
 import requests
 
 
-def stage_attachment(file_name):
+def stage_attachment(file_name: str) -> list:
     url = '<base_url>/policyplanner/api/domain/<domain_id>/workflow/<workflow_id>/packet/attachment'
     with open(file_name, 'rb') as f:
         response = requests.post(
@@ -501,17 +501,17 @@ def stage_attachment(file_name):
     return response.status_code, response.reason, response.json()
 
 
-def post_attachment(ticket_id, attachment_json):
+def post_attachment(ticket_id: str, attachment_json: dict) -> str:
     url = '<base_url>/policyplanner/api/domain/<domain_id>/workflow/<workflow_id>/packet/' + ticket_id + '/attachment'
     response = requests.put(
         url=url,
         json=attachment_json,
         auth=(<username>, <password>)
     )
-    return response.json()['attachments'][0]['id']
+    return str(response.json()['attachments'][0]['id'])
 
 
-def update_attachment_desc(ticket_id, description, attachment_id):
+def update_attachment_desc(ticket_id: str, description: str, attachment_id: str) -> list:
     url = '<base_url>/policyplanner/api/domain/<domain_id>/workflow/<workflow_id>/packet/' + ticket_id + '/attachment/' + attachment_id
     payload = {
         'description': description
@@ -524,10 +524,10 @@ def update_attachment_desc(ticket_id, description, attachment_id):
     return response.status_code, response.reason
 
 
-def add_attachment(ticket_id, filename, description):
+def add_attachment(ticket_id: str, filename: str, description: str) -> list:
     attachment_staged = stage_attachment(filename)
     attachment_id = post_attachment(ticket_id, attachment_staged[2], description)
-    update = update_attachment_desc(ticket_id, description, str(attachment_id))
+    update = update_attachment_desc(ticket_id, description, attachment_id)
     return update
 
 
@@ -543,7 +543,7 @@ Python
 import requests
 
 
-def get_rule_rec(device_group_id, address_match_strategy, modify_behavior, strategy):
+def get_rule_rec(device_group_id: str, address_match_strategy: str, modify_behavior: str, strategy: str) -> dict:
     """
     :param device_group_id: Device Group ID for the Device Group to Run Rule Rec against. Device Group 1 Should Be 'All Devices'
     :param address_match_strategy: Allows the option to specify the matching strategy used. Options are: INTERSECTS (default) or SUPERSET_OF
